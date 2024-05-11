@@ -19,12 +19,13 @@ import session from 'express-session';
 import MongoDBStore from 'connect-mongodb-session';
 
 
-//const url = 'https://retino.vercel.app'
+const url = 'http://localhost:5173'
+//const url = 'https://heinreach.vercel.app'
 // Configurations
 const  app = express()
 app.use(express.json())
 app.use(cors({
-    // origin: url,
+    origin: url,
     methods: ['GET','POST','PATCH','DELETE','PUT'],
     allowedHeaders: ['Content-Type'],
     credentials: true,
@@ -52,9 +53,9 @@ app.use(session({
     saveUninitialized: true,
     store: sessionStore,
     cookie:{
-        maxAge: 600000, 
-        //httpOnly: true,
-        secure:true,   
+        maxAge: 60000, 
+        httpOnly: true,
+        //secure:true,   
         // sameSite: 'none'  
     }
 }))

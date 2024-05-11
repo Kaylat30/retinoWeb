@@ -1,33 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, createBrowserRouter, createRoutesFromElements,RouterProvider } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
+import Login , { action as loginAction} from "./pages/Login"
+import Signup, {action as signupAction}  from "./pages/Signup";
+import Error from "./components/Error"
+import Layout from "./components/Layout";
+import Home from "./pages/Home";
+import Blog from "./pages/Blog";
+import Education from "./pages/Education";
+import Nutrition from "./pages/Nutrition";
+import Add from "./pages/Add";
+import Eye from "./pages/Eye";
+import Insights from "./pages/Insights";
 
-function App() {
-  const [count, setCount] = useState(0)
+const router = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={<Layout />} errorElement={<Error />}>
+     <Route index  element={<Home />}/>
+     <Route path="insight" element={<Insights />} />
+     <Route path="eye" element={<Eye />} />
+     <Route path="add" element={<Add />} />
+     <Route path="nutrition" element={<Nutrition />} />
+     <Route path="education" element={<Education />} />
+     <Route path="blog" element={<Blog />} />
+     <Route path="signup" element={<Signup />} action={signupAction}/>
+     <Route path="login" element={<Login />} action={loginAction} />
+  </Route>  
+))
+function App():JSX.Element{
+  
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <ToastContainer />
+      <RouterProvider router={router} />      
     </>
   )
 }
