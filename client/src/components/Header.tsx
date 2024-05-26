@@ -89,8 +89,8 @@ export default function Header() {
     <nav className="flex flex-col justify-center mx-auto px-4 pb-4 fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
       <div className='flex items-center justify-between'>
           <Link to="/" className="pt-2 flex items-center">
-            <img className="h-16" src={image}  alt="heinReach Logo" />
-            <h2 className="font-bold text-xl">HeinReach</h2>
+            <img className="h-16" src={image}  alt="retino Logo" />
+            <h2 className="font-bold text-xl">Retino</h2>
           </Link>
 
           {/* search section  */}
