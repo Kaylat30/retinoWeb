@@ -1,9 +1,9 @@
-@baseUrl  =  https://heinreach-server.vercel.app
+@baseUrl  =  https://retinoweb-server.vercel.app
 //@baseUrl = http://localhost:3000
 
 
 ### Register User
-POST {{baseUrl}}
+POST {{baseUrl}}/signup 
 Content-Type: application/json
 
 {

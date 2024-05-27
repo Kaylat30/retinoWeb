@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 // import Login , { action as loginAction} from "./pages/Login"
 import Login from "./pages/Login"
-import Signup, {action as signupAction}  from "./pages/Signup";
+import Signup  from "./pages/Signup";
 import Error from "./components/Error"
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
@@ -28,8 +28,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 ,    <Route path="nutrition" element={<Nutrition />} />
      <Route path="education" element={<Education />} />
      <Route path="blog" element={<Blog />} />
-     <Route path="signup" element={<Signup />} action={signupAction}/>
-     {/* <Route path="login" element={<Login />} action={loginAction} /> */}
+     <Route path="signup" element={<Signup />} />
      <Route path="login" element={<Login />} />
   </Route>  
 ))

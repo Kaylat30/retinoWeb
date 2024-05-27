@@ -2,21 +2,41 @@ import { useState,useEffect, } from 'react';
 import { Link, NavLink ,useLocation} from 'react-router-dom';
 import image from '../assets/icon.png';
 import {IoNotifications,IoPersonCircleOutline } from "react-icons/io5";
-import { logoutUser } from '../api';
 import { toast } from "react-toastify"
 import Cookies from "js-cookie"
+import { selectStatus,LogoutUser } from '../slice/userSlice';
+import { useAppDispatch, useAppSelector } from '../store';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 //  const [count, setCount] = useState(0);
  // const [cartItems, setCartItems] = useState([]);
   const location = useLocation();
+  const dispatch = useAppDispatch()
+  const status = useAppSelector(selectStatus);
+  //const error = useAppSelector(selectError);
+  //const user = useAppSelector(selectUser)
   //const navigate = useNavigate();
 
   useEffect(() => {
     // Scroll to the top of the page when the location changes
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+
+  // useEffect(() => {
+  //   if (status === 'succeeded') {
+  //     toast.success('Logged in successfully', {
+  //       position: 'bottom-left',
+  //     });
+  //     //navigate('/');
+  //     console.log(user)
+  //   } else if (status === 'failed') {
+  //     toast.error(error || 'An error occurred while logging in', {
+  //       position: 'bottom-left',
+  //     });
+  //   }
+  // }, [status, error]);
  
   // useEffect(() => {
   //   const fetchCart = async () => {
@@ -61,6 +81,9 @@ export default function Header() {
   const isAuthenticated = !!firstnameData.firstname;
   const username = firstnameData.firstname || "";
 
+  // const isAuthenticated = !!user; // Determine if the user is authenticated
+  // const username = user?.firstName || '';
+
   const toggleDiv = () => {
     setShowDiv(!showDiv);
     // Close the menu when opening the account slider
@@ -72,7 +95,7 @@ export default function Header() {
   const handleLogout = async () => {
     try {
       // Call the logout API function
-      await logoutUser();
+      await dispatch(LogoutUser());
   
       // Remove the 'firstname' cookie
       Cookies.remove('firstname');
@@ -197,11 +220,11 @@ export default function Header() {
               ( <>
                 <h1>hello, {username}</h1>
                 <button
-                  
+                  disabled={status === 'loading'}
                   onClick={handleLogout}
                   className="flex justify-center p-3 px-6 w-full md:mt-4 text-white font-bold bg-brightBlue rounded-lg baseline hover:bg-brightBlueLight"
                 >
-                  Logout
+                  {status === 'loading' ? 'Logging out...' : 'Logout'}
                 </button>
                 </>):
                 ( <>

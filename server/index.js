@@ -19,8 +19,8 @@ import session from 'express-session';
 import MongoDBStore from 'connect-mongodb-session';
 
 
-const url = 'http://localhost:5173'
-//const url = 'https://retino.vercel.app'
+//const url = 'http://localhost:5173'
+const url = 'https://retino.vercel.app'
 // Configurations
 const  app = express()
 app.use(express.json())

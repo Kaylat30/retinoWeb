@@ -91,7 +91,11 @@ export async function logoutUser(): Promise<void> {
         }
 
         if (!res.ok) {
-            throw new Error(`Logout failed with status ${res.status}`);
+            throw {
+                message: res.status,
+                statusText: res.statusText,
+                status: res.status
+            }
         }
     } catch (error) {
         console.error('Logout error:', error);
