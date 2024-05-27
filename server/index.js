@@ -20,7 +20,7 @@ import MongoDBStore from 'connect-mongodb-session';
 
 
 const url = 'http://localhost:5173'
-//const url = 'https://heinreach.vercel.app'
+//const url = 'https://retino.vercel.app'
 // Configurations
 const  app = express()
 app.use(express.json())
@@ -55,8 +55,8 @@ app.use(session({
     cookie:{
         maxAge: 60000, 
         httpOnly: true,
-        //secure:true,   
-        // sameSite: 'none'  
+        secure:true,   
+        sameSite: 'none'  
     }
 }))
 app.use(cookieParser(process.env.JWT_SECRET));

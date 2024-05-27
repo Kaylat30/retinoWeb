@@ -1,0 +1,23 @@
+@baseUrl  =  https://heinreach-server.vercel.app
+//@baseUrl = http://localhost:3000
+
+
+### Register User
+POST {{baseUrl}}
+Content-Type: application/json
+
+{
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@gmail.com",
+    "password": "123456"
+}
+
+### login User
+POST {{baseUrl}}/login
+Content-Type: application/json
+
+{
+    "email": "kayondoabdulatif@gmail.com",
+    "password": "12345"
+}

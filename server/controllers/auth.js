@@ -50,8 +50,8 @@ export const login = (req, res, next) => {
  
       res.cookie('firstname', JSON.stringify({firstname:user.firstname}), {
         maxAge: 60000, 
-        //secure: true,
-        //sameSite: 'none'  
+        secure: true,
+        sameSite: 'none'  
       }); 
          
         res.status(200).json({success : true , message: "logged in successfully" , firstName: user.firstname });
