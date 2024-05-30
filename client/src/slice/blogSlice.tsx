@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { addBlog,getAllBlogs,updateBlog,deleteBlog,getBlogById } from '../api';
 
 interface Blog {
-  id: string;
+  _id: string;
   image: string;
   title: string;
   author: string;
@@ -166,7 +166,7 @@ const blogSlice = createSlice({
       })
       .addCase(DeleteBlog.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.blogs = state.blogs.filter((blog) => blog.id !== action.payload.id);
+        state.blogs = state.blogs.filter((blog) => blog._id !== action.payload._id);
         state.error = null;
       })
       .addCase(DeleteBlog.rejected, (state, action) => {
@@ -180,7 +180,7 @@ const blogSlice = createSlice({
       .addCase(UpdateBlog.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const updatedBlog = action.payload;
-        const index = state.blogs.findIndex((blog) => blog.id === updatedBlog.id);
+        const index = state.blogs.findIndex((blog) => blog._id === updatedBlog._id);
         if (index !== -1) {
           state.blogs[index] = updatedBlog;
         }

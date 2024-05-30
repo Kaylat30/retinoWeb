@@ -16,6 +16,7 @@ import MedicationForm from "./pages/MedicationForm";
 import NutritionForm from "./pages/NutritionForm";
 import AddLayout from "./components/AddLayout";
 import Educinfo from "./pages/Educinfo";
+import BlogInfo from "./pages/BlogInfo";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />} errorElement={<Error />}>
@@ -30,6 +31,7 @@ const router = createBrowserRouter(createRoutesFromElements(
      <Route path="education" element={<Education />} />
      <Route path="education/:text" element={<Educinfo />}/>
      <Route path="blog" element={<Blog />} />
+     <Route path="blog/:id" element={<BlogInfo />} />
      <Route path="signup" element={<Signup />} />
      <Route path="login" element={<Login />} />
   </Route>  
