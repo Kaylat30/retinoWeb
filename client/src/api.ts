@@ -19,7 +19,7 @@ export async function LoginUser(email: string, password: string) {
         });
 
         const data = await res.json();
-        console.log(data);
+        
 
         if (!res.ok) {
             throw {

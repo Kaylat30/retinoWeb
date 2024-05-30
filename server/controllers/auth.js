@@ -52,7 +52,7 @@ export const login = (req, res, next) => {
         maxAge: 60000, 
         secure: true,
         sameSite: 'none',
-        httpOnly: false
+        httpOnly: false  
       }); 
          
         res.status(200).json({success : true , message: "logged in successfully" , firstName: user.firstname });
