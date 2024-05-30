@@ -15,6 +15,7 @@ import Insights from "./pages/Insights";
 import MedicationForm from "./pages/MedicationForm";
 import NutritionForm from "./pages/NutritionForm";
 import AddLayout from "./components/AddLayout";
+import Educinfo from "./pages/Educinfo";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />} errorElement={<Error />}>
@@ -25,8 +26,9 @@ const router = createBrowserRouter(createRoutesFromElements(
         <Route index element={<MedicationForm/>}/>
         <Route path="nutritionform" element={<NutritionForm />}/> 
      </Route>
-,    <Route path="nutrition" element={<Nutrition />} />
+    <Route path="nutrition" element={<Nutrition />} />
      <Route path="education" element={<Education />} />
+     <Route path="education/:text" element={<Educinfo />}/>
      <Route path="blog" element={<Blog />} />
      <Route path="signup" element={<Signup />} />
      <Route path="login" element={<Login />} />
