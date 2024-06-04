@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addCheckup, getAllCheckups, updateCheckup, deleteCheckup } from '../api'; // Adjust imports based on your API structure
-//import { WritableDraft } from 'immer';
+import { addCheckup, getAllCheckups, updateCheckup, deleteCheckup } from '../api'; 
 
 interface Checkup {
   id: string;

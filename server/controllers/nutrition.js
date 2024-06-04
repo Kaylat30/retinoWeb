@@ -34,9 +34,9 @@ export const getNutritionRecords = async (req, res) => {
 // Update nutrition record
 export const updateNutritionRecord = async (req, res) => {
     try {
-        const {NutritionId,food,calories,date} = req.body
+        const {NutritionId,food,date} = req.body
         const updatedNutrition = await Nutrition.findByIdAndUpdate(NutritionId,
-            {food:food,calories:calories,date:date},
+            {food:food,date:date},
             {new:true});
         res.status(200).json({ message: 'Nutrition record updated successfully', Nutrition: updatedNutrition });
     } catch (error) {

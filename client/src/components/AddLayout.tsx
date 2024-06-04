@@ -14,13 +14,19 @@ export default function AddLayout()
             to="."
             end
             style ={({isActive})=> isActive ? activestyle : undefined}
-            >Medication
+            >Appointment
             </NavLink>
             <NavLink
-            to="nutritionform"
+            to="checkupform"
             end
             style ={({isActive})=> isActive ? activestyle : undefined}
-            >Nutrition
+            >CheckUp
+            </NavLink>
+            <NavLink
+            to="eyescreeningform"
+            end
+            style ={({isActive})=> isActive ? activestyle : undefined}
+            >Eye Screening
             </NavLink>
         </nav> 
             <Outlet />

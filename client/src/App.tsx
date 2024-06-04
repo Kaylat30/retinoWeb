@@ -12,11 +12,12 @@ import Education from "./pages/Education";
 import Nutrition from "./pages/Nutrition";
 import Eye from "./pages/Eye";
 import Insights from "./pages/Insights";
-import MedicationForm from "./pages/MedicationForm";
-import NutritionForm from "./pages/NutritionForm";
+import AppointmentForm from "./pages/ApppointmentForm";
+import CheckupForm from "./pages/CheckupForm";
 import AddLayout from "./components/AddLayout";
 import Educinfo from "./pages/Educinfo";
 import BlogInfo from "./pages/BlogInfo";
+import EyescreeningForm from "./pages/EyescreeningForm";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />} errorElement={<Error />}>
@@ -24,8 +25,9 @@ const router = createBrowserRouter(createRoutesFromElements(
      <Route path="insight" element={<Insights />} />
      <Route path="eye" element={<Eye />} />
      <Route path="add" element={<AddLayout />} >
-        <Route index element={<MedicationForm/>}/>
-        <Route path="nutritionform" element={<NutritionForm />}/> 
+        <Route index element={<AppointmentForm/>}/>
+        <Route path="checkupform" element={<CheckupForm />}/>
+        <Route path="eyescreeningform" element={<EyescreeningForm />}/> 
      </Route>
     <Route path="nutrition" element={<Nutrition />} />
      <Route path="education" element={<Education />} />

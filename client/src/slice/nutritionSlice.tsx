@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { addNutritionRecord, getAllNutritionRecords, updateNutritionRecord, deleteNutritionRecord } from '../api'; // Adjust imports based on your API structure
-//import { WritableDraft } from 'immer';
+import { addNutritionRecord, getAllNutritionRecords, updateNutritionRecord, deleteNutritionRecord } from '../api'; 
 
 interface NutritionRecord {
-  id: string;
+  _id: string;
   food: string;
-  calories: number;
   date: string;
 }
 
@@ -26,11 +24,27 @@ interface RejectWithValue {
 }
 
 // Async thunk for adding a nutrition record
-export const AddNutritionRecord = createAsyncThunk<NutritionRecord, string[], { rejectValue: RejectWithValue }>(
+// export const AddNutritionRecord = createAsyncThunk<NutritionRecord, string[], { rejectValue: RejectWithValue }>(
+//   'nutrition/addNutritionRecord',
+//   async (foods, { rejectWithValue }) => {
+//     try {
+//       const data = await addNutritionRecord(foods);
+//       return data;
+//     } catch (error) {
+//       if (error instanceof Error) {
+//         console.error('Error adding nutrition record:', error.message);
+//         throw rejectWithValue({ message: error.message });
+//       }
+//       throw rejectWithValue({ message: 'An error occurred while adding nutrition record' });
+//     }
+//   }
+// );
+
+export const AddNutritionRecord = createAsyncThunk<NutritionRecord[], { food: string; date: string }[], { rejectValue: RejectWithValue }>(
   'nutrition/addNutritionRecord',
-  async (foods, { rejectWithValue }) => {
+  async (foodsWithDate, { rejectWithValue }) => {
     try {
-      const data = await addNutritionRecord(foods);
+      const data = await addNutritionRecord(foodsWithDate);
       return data;
     } catch (error) {
       if (error instanceof Error) {
@@ -60,11 +74,11 @@ export const GetAllNutritionRecords = createAsyncThunk<NutritionRecord[], void, 
 );
 
 // Async thunk for updating a nutrition record
-export const UpdateNutritionRecord = createAsyncThunk<NutritionRecord, { id: string; food: string; calories: number; date: string }, { rejectValue: RejectWithValue }>(
+export const UpdateNutritionRecord = createAsyncThunk<NutritionRecord, { id: string; food: string; date: string }, { rejectValue: RejectWithValue }>(
   'nutrition/updateNutritionRecord',
-  async ({ id, food, calories, date }, { rejectWithValue }) => {
+  async ({ id, food, date }, { rejectWithValue }) => {
     try {
-      const data = await updateNutritionRecord(id, food, calories, date);
+      const data = await updateNutritionRecord(id, food, date);
       return data;
     } catch (error) {
       if (error instanceof Error) {
@@ -104,7 +118,7 @@ const nutritionSlice = createSlice({
       })
       .addCase(AddNutritionRecord.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.nutritionRecords.push(action.payload); // Add new record to the array
+        state.nutritionRecords.push(...action.payload); // Add new record to the array
         state.error = null; // Clear error on success
       })
       .addCase(AddNutritionRecord.rejected, (state, action) => {
@@ -130,10 +144,10 @@ const nutritionSlice = createSlice({
       })
       .addCase(UpdateNutritionRecord.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const { id, food, calories, date } = action.payload;
-        const existingRecordIndex = state.nutritionRecords.findIndex((record) => record.id === id);
+        const { _id, food, date } = action.payload;
+        const existingRecordIndex = state.nutritionRecords.findIndex((record) => record._id === _id);
         if (existingRecordIndex !== -1) {
-          state.nutritionRecords[existingRecordIndex] = { id, food, calories, date };
+          state.nutritionRecords[existingRecordIndex] = { _id, food, date };
         }
         state.error = null; // Clear error on success
       })
@@ -148,7 +162,7 @@ const nutritionSlice = createSlice({
       .addCase(DeleteNutritionRecord.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const nutritionId = action.meta.arg;
-        state.nutritionRecords = state.nutritionRecords.filter((record) => record.id !== nutritionId);
+        state.nutritionRecords = state.nutritionRecords.filter((record) => record._id !== nutritionId);
         state.error = null; // Clear error on success
       })
       .addCase(DeleteNutritionRecord.rejected, (state, action) => {
