@@ -5,9 +5,9 @@ interface Checkup {
   id: string;
   date: string;
   clinic?: string;
-  glucose?: string;
-  hemoglobin?: string;
-  urinalysis?: string;
+  glucose?: number;
+  hemoglobin?: number;
+  urinalysis?: number;
 }
 
 interface CheckupsState {
@@ -64,9 +64,9 @@ export const GetAllCheckups = createAsyncThunk<Checkup[], void, { rejectValue: R
 export const UpdateCheckup = createAsyncThunk<Checkup, {
   clinic: string;
   id: string;
-  glucose: string;
-  hemoglobin: string;
-  urinalysis: string;
+  glucose: number;
+  hemoglobin: number;
+  urinalysis: number;
 }, { rejectValue: RejectWithValue }>(
   'checkups/updateCheckup',
   async ({ clinic, id, glucose, hemoglobin, urinalysis }, { rejectWithValue }) => {

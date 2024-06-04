@@ -4,17 +4,16 @@ import {
   getAllEyeScreenings,
   updateEyeScreening,
   deleteEyeScreening,
-} from '../api'; // Adjust imports based on your API structure
-//import { WritableDraft } from 'immer';
+} from '../api';
 
 interface EyeScreening {
   id: string;
   date: string;
   clinic?: string;
-  risk?: string;
-  visual?: string;
-  intraocular?: string;
-  serum?: string;
+  risk?: number;
+  visual?: number;
+  intraocular?: number;
+  serum?: number;
 }
 
 interface EyeScreeningsState {
@@ -71,10 +70,10 @@ export const GetAllEyeScreenings = createAsyncThunk<EyeScreening[], void, { reje
 export const UpdateEyeScreening = createAsyncThunk<EyeScreening, {
   id: string;
   clinic: string;
-  risk: string;
-  visual: string;
-  intraocular: string;
-  serum: string;
+  risk: number;
+  visual: number;
+  intraocular: number;
+  serum: number;
 }, { rejectValue: RejectWithValue }>(
   'eyeScreenings/updateEyeScreening',
   async ({ id, clinic, risk, visual, intraocular, serum }, { rejectWithValue }) => {

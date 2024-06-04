@@ -19,9 +19,9 @@ const CheckupForm: React.FC = () => {
 
   const [date, setDate] = useState<string>('');
   const [clinic, setClinic] = useState<string>('');
-  const [glucose, setGlucose] = useState<string>('');
-  const [hemoglobin, setHemoglobin] = useState<string>('');
-  const [urinalysis, setUrinalysis] = useState<string>('');
+  const [glucose, setGlucose] = useState<number>();
+  const [hemoglobin, setHemoglobin] = useState<number>();
+  const [urinalysis, setUrinalysis] = useState<number>();
 
   useEffect(() => {
     dispatch(GetAllCheckups());
@@ -79,21 +79,21 @@ const CheckupForm: React.FC = () => {
         <input
           type="text"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setGlucose(e.target.value)}
+          onChange={(e) => setGlucose(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={glucose}
         />
         <label className="text-lg font-medium">Hemoglobin:</label>
         <input
           type="text"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setHemoglobin(e.target.value)}
+          onChange={(e) => setHemoglobin(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={hemoglobin}
         />
         <label className="text-lg font-medium">Urinalysis:</label>
         <input
           type="text"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setUrinalysis(e.target.value)}
+          onChange={(e) => setUrinalysis(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={urinalysis}
         />
         <button

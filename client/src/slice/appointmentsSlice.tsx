@@ -6,7 +6,7 @@ interface Appointment {
   id: string;
   clinic: string;
   email: string;
-  number: string;
+  number: number;
   description: string;
   message: string;
   name: string;
@@ -34,7 +34,7 @@ interface RejectWithValue {
 export const AddAppointment = createAsyncThunk<Appointment, {
   clinic: string,
   email: string,
-  number: string,
+  number: number,
   description: string,
   message: string,
   name: string,

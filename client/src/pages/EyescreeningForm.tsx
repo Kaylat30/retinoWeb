@@ -10,7 +10,6 @@ import {
   selectEyeScreeningsError,
 } from '../slice/eyescreeningSlice';
 import { toast } from 'react-toastify';
-  
 
 const EyeScreeningForm: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,10 +19,10 @@ const EyeScreeningForm: React.FC = () => {
 
   const [date, setDate] = useState<string>('');
   const [clinic, setClinic] = useState<string>('');
-  const [risk, setRisk] = useState<string>('');
-  const [visual, setVisual] = useState<string>('');
-  const [intraocular, setIntraocular] = useState<string>('');
-  const [serum, setSerum] = useState<string>('');
+  const [risk, setRisk] = useState<number | undefined>();
+  const [visual, setVisual] = useState<number | undefined>();
+  const [intraocular, setIntraocular] = useState<number | undefined>();
+  const [serum, setSerum] = useState<number | undefined>();
 
   useEffect(() => {
     dispatch(GetAllEyeScreenings());
@@ -33,7 +32,7 @@ const EyeScreeningForm: React.FC = () => {
     const [day, month, year] = date.split('/').map((part) => parseInt(part));
     const parsedDate = new Date(year, month - 1, day);
 
-    if (date && clinic && risk && visual && intraocular && serum) {
+    if (date && clinic && risk !== undefined && visual !== undefined && intraocular !== undefined && serum !== undefined) {
       try {
         if (eyeScreenings.length > 0) {
           const id = eyeScreenings[eyeScreenings.length - 1].id;
@@ -75,30 +74,30 @@ const EyeScreeningForm: React.FC = () => {
         />
         <label className="text-lg font-medium">Risk:</label>
         <input
-          type="text"
+          type="number"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setRisk(e.target.value)}
+          onChange={(e) => setRisk(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={risk}
         />
         <label className="text-lg font-medium">Visual:</label>
         <input
-          type="text"
+          type="number"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setVisual(e.target.value)}
+          onChange={(e) => setVisual(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={visual}
         />
         <label className="text-lg font-medium">Intraocular:</label>
         <input
-          type="text"
+          type="number"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setIntraocular(e.target.value)}
+          onChange={(e) => setIntraocular(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={intraocular}
         />
         <label className="text-lg font-medium">Serum:</label>
         <input
-          type="text"
+          type="number"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setSerum(e.target.value)}
+          onChange={(e) => setSerum(e.target.value ? parseFloat(e.target.value) : undefined)}
           value={serum}
         />
         <button

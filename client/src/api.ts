@@ -315,7 +315,7 @@ export const deleteNutritionRecord = async (nutritionId: string) => {
 };
 
 // Function to add a new appointment
-export const addAppointment = async (clinic: string, email: string, number: string, description: string, message: string, name: string, date: string) => {
+export const addAppointment = async (clinic: string, email: string, number: number, description: string, message: string, name: string, date: string) => {
     try {
         const response = await fetch(`${url}/addAppointment`, {
             method: 'POST',
@@ -456,7 +456,7 @@ export const getAllCheckups = async () => {
 };
 
 // Function to update a checkup
-export const updateCheckup = async (clinic: string, id: string, glucose: string, hemoglobin: string, urinalysis: string) => {
+export const updateCheckup = async (clinic: string, id: string, glucose: number, hemoglobin: number, urinalysis: number) => {
     try {
         const response = await fetch(`${url}/updateCheckup`, {
             method: 'PATCH',
@@ -550,7 +550,7 @@ export const getAllEyeScreenings = async () => {
 };
 
 // Function to update an eye screening
-export const updateEyeScreening = async (id: string, clinic: string, risk: string, visual: string, intraocular: string, serum: string) => {
+export const updateEyeScreening = async (id: string, clinic: string, risk: number, visual: number, intraocular: number, serum: number) => {
     try {
         const response = await fetch(`${url}/updateEyeScreening`, {
             method: 'PATCH',
