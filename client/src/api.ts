@@ -216,29 +216,30 @@ export const updateBlog = async (id: string, image: string, title: string, autho
 };
 
 // Function to add a new nutrition record
-export const addNutritionRecord = async (foods: string[]) => {
+export const addNutritionRecord = async (foodsWithDate: { food: string; date: string }[]) => {
     try {
-        const response = await fetch(`${url}/addNutrition`, {
-            method: 'POST',
-            credentials: "include",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ foods: foods }),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to add nutrition record');
-        }
-
-        return await response.json();
+      const response = await fetch(`${url}/addNutrition`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ foods: foodsWithDate }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to add nutrition record');
+      }
+  
+      return await response.json();
     } catch (error) {
       if (error instanceof Error) {
         console.error('Error adding nutrition record:', error.message);
         throw error;
       }
     }
-};
+  };
+  
 
 // Function to get all nutrition records
 export const getAllNutritionRecords = async () => {
@@ -262,7 +263,7 @@ export const getAllNutritionRecords = async () => {
 };
 
 // Function to update a nutrition record
-export const updateNutritionRecord = async (id: string, food: string, calories: number, date: string) => {
+export const updateNutritionRecord = async (id: string, food: string, date: string) => {
     try {
         const response = await fetch(`${url}/updateNutrition`, {
             method: 'PATCH',
@@ -270,7 +271,7 @@ export const updateNutritionRecord = async (id: string, food: string, calories: 
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ NutritionId: id, food: food, calories: calories, date: date }),
+            body: JSON.stringify({ NutritionId: id, food: food, date: date }),
         });
 
         if (!response.ok) {
