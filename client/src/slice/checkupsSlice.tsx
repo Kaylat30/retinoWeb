@@ -5,7 +5,7 @@ interface Checkup {
   id: string;
   date: string;
   clinic?: string;
-  glucose?: number;
+  glucose: number;
   hemoglobin?: number;
   urinalysis?: number;
 }
