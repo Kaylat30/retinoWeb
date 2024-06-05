@@ -6,6 +6,7 @@ import {  useDispatch, useSelector,TypedUseSelectorHook } from 'react-redux';
 import blogSlice from "./slice/blogSlice";
 import checkupsSlice from "./slice/checkupsSlice";
 import eyescreeningSlice from "./slice/eyescreeningSlice";
+import notificationSlice from "./slice/notificationSlice";
 
 
 export type RootState = ReturnType<typeof store.getState>;
@@ -16,7 +17,8 @@ export type RootState = ReturnType<typeof store.getState>;
       user: userSlice,
       blogs: blogSlice,
       checkups:checkupsSlice,
-      eyeScreenings:eyescreeningSlice
+      eyeScreenings:eyescreeningSlice,
+      notifications: notificationSlice
     },
     
   });

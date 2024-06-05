@@ -1,60 +1,32 @@
-/* eslint-disable react-refresh/only-export-components */
-
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {  registerUser, logoutUser } from '../api'; // Make sure to import logoutUser
-
+import { registerUser, logoutUser } from '../api';
+import { url } from '../api';
 
 interface User {
   firstName: string;
-
 }
 
-// Define a type for the slice state
 interface UserState {
   user: User | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  sessionExpiresAt: number | null; 
 }
 
-// Define the initial state using that type
 const initialState: UserState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user') as string) || null,
   status: 'idle',
   error: null,
+  sessionExpiresAt: JSON.parse(localStorage.getItem('sessionExpiresAt') as string) || null,
 };
 
-// Define a type for the error in case of rejected promise
-interface RejectWithValue {
-  message: string;
-}
 
-// // Async thunk for login
-// export const loginUser = createAsyncThunk<
-//   User,
-//   { email: string; password: string },
-//   { rejectValue: RejectWithValue }
-// >('user/loginUser', async ({ email, password }, { rejectWithValue }) => {
-//   try {
-//     const data = await LoginUser(email, password);
-//     return data;
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       return rejectWithValue({ message: error.message || 'Invalid email or password' });
-//     } else {
-//       return rejectWithValue({ message: 'An error occurred while logging in' });
-//     }
-//   }
-// });
-
-// Async thunk for login
-const url: string = "http://localhost:3000";
-export const loginUser = createAsyncThunk<User, { email: string; password: string }, { rejectValue: RejectWithValue }>(
+export const loginUser = createAsyncThunk<User, { email: string; password: string }, { rejectValue: { message: string } }>(
   'auth/loginUser',
   async ({ email, password }, { rejectWithValue }) => {
     const requestBody = {
-      email: email,
-      password: password,
+      email,
+      password,
     };
 
     try {
@@ -69,15 +41,8 @@ export const loginUser = createAsyncThunk<User, { email: string; password: strin
 
       const data = await res.json();
 
-      // if (!res.ok) {
-      //   throw {
-      //     message: data.error,
-      //     statusText: res.statusText,
-      //     status: res.status,
-      //   };
-      // }
       if (!res.ok) {
-        return rejectWithValue({ message: data.error});
+        return rejectWithValue({ message: data.error });
       }
 
       return data;
@@ -92,26 +57,22 @@ export const loginUser = createAsyncThunk<User, { email: string; password: strin
   }
 );
 
-// Async thunk for registration
-export const RegisterUser = createAsyncThunk<
-  User,
-  { firstname: string; lastname: string; email: string; password: string },
-  { rejectValue: RejectWithValue }
->('user/RegisterUser', async ({ firstname, lastname, email, password }, { rejectWithValue }) => {
-  try {
-    const data = await registerUser(firstname, lastname, email, password);
-    return data; 
-  } catch (error) {
-    if (error instanceof Error) {
-      return rejectWithValue({ message: error.message });
+export const RegisterUser = createAsyncThunk<User, { firstname: string; lastname: string; email: string; password: string }, { rejectValue: { message: string } }>(
+  'user/RegisterUser', async ({ firstname, lastname, email, password }, { rejectWithValue }) => {
+    try {
+      const data = await registerUser(firstname, lastname, email, password);
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue({ message: error.message });
+      }
     }
   }
-});
+);
 
-// Async thunk for logout
 export const LogoutUser = createAsyncThunk<void>('user/logoutUser', async () => {
   try {
-    await logoutUser(); 
+    await logoutUser();
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
@@ -122,7 +83,14 @@ export const LogoutUser = createAsyncThunk<void>('user/logoutUser', async () => 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.sessionExpiresAt = null;
+      localStorage.removeItem('user');
+      localStorage.removeItem('sessionExpiresAt');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
@@ -133,6 +101,11 @@ const userSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
         state.error = null; // Clear error on success
+        const sessionDuration = 60 * 1000; // 60 seconds
+        const sessionExpiresAt = Date.now() + sessionDuration;
+        state.sessionExpiresAt = sessionExpiresAt;
+        localStorage.setItem('user', JSON.stringify(action.payload));
+        localStorage.setItem('sessionExpiresAt', JSON.stringify(sessionExpiresAt));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -146,6 +119,11 @@ const userSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
         state.error = null; // Clear error on success
+        const sessionDuration = 60 * 1000; // 60 seconds
+        const sessionExpiresAt = Date.now() + sessionDuration;
+        state.sessionExpiresAt = sessionExpiresAt;
+        localStorage.setItem('user', JSON.stringify(action.payload));
+        localStorage.setItem('sessionExpiresAt', JSON.stringify(sessionExpiresAt));
       })
       .addCase(RegisterUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -159,6 +137,8 @@ const userSlice = createSlice({
         state.status = 'idle';
         state.user = null;
         state.error = null; // Clear error on success
+        localStorage.removeItem('user');
+        localStorage.removeItem('sessionExpiresAt');
       })
       .addCase(LogoutUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -167,9 +147,12 @@ const userSlice = createSlice({
   },
 });
 
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
 
 // Selector functions
 export const selectUser = (state: { user: UserState }) => state.user.user;
 export const selectStatus = (state: { user: UserState }) => state.user.status;
 export const selectError = (state: { user: UserState }) => state.user.error;
+export const selectSessionExpiresAt = (state: { user: UserState }) => state.user.sessionExpiresAt;
+export const selectFirstName = (state: { user: UserState }) => state.user.user?.firstName;

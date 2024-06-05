@@ -4,8 +4,9 @@ import image from '../assets/icon.png';
 import {IoNotifications,IoPersonCircleOutline } from "react-icons/io5";
 import { toast } from "react-toastify"
 import Cookies from "js-cookie"
-import { selectStatus,LogoutUser } from '../slice/userSlice';
+import { selectStatus,LogoutUser, selectFirstName } from '../slice/userSlice';
 import { useAppDispatch, useAppSelector } from '../store';
+import { selectNotificationCount} from '../slice/notificationSlice'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,8 @@ export default function Header() {
   const location = useLocation();
   const dispatch = useAppDispatch()
   const status = useAppSelector(selectStatus);
+  const count = useAppSelector(selectNotificationCount)
+  const firstName = useAppSelector(selectFirstName);
   //const error = useAppSelector(selectError);
   //const user = useAppSelector(selectUser)
   //const navigate = useNavigate();
@@ -76,13 +79,13 @@ export default function Header() {
   const [showDiv, setShowDiv] = useState(false);
 
   // Access the firstname from the firstname cookie
-  const firstnameCookie = Cookies.get('firstname');
-  const firstnameData = firstnameCookie ? JSON.parse(firstnameCookie) : {};
-  const isAuthenticated = !!firstnameData.firstname;
-  const username = firstnameData.firstname || "";
+  // const firstnameCookie = Cookies.get('firstname');
+  // const firstnameData = firstnameCookie ? JSON.parse(firstnameCookie) : {};
+  // const isAuthenticated = !!firstnameData.firstname;
+  // const username = firstnameData.firstname || "";
 
-  // const isAuthenticated = !!user; // Determine if the user is authenticated
-  // const username = user?.firstName || '';
+  const isAuthenticated = !!firstName;
+  const username = firstName || "";
 
   const toggleDiv = () => {
     setShowDiv(!showDiv);
@@ -178,14 +181,14 @@ export default function Header() {
           
           <div className='flex space-x-6'>          
           <NavLink
-                  to="cart"
+                  to="notification"
                   className="hover:text-brightGreen text-2xl relative"
                   style={({isActive}) => isActive ? activeStyles : undefined}
                 >
                   <IoNotifications />                  
                     <span className="absolute flex justify-center -top-1 -right-1 bg-red-600 text-xs text-white  h-4 w-4 rounded-full">
-                      {/* {count} */}
-                      3
+                      {count}
+                      
                     </span>
                   
                 </NavLink>

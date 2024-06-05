@@ -48,12 +48,12 @@ export const login = (req, res, next) => {
           return res.status(500).json({ error: err.message });
         }        
  
-      res.cookie('firstname', JSON.stringify({firstname:user.firstname}), {
-        maxAge: 60000, 
-        secure: true,
-        sameSite: 'none',
-        httpOnly: false  
-      }); 
+      // res.cookie('firstname', JSON.stringify({firstname:user.firstname}), {
+      //   maxAge: 60000, 
+      //   secure: true,
+      //   sameSite: 'none',
+      //   httpOnly: false  
+      // }); 
          
         res.status(200).json({success : true , message: "logged in successfully" , firstName: user.firstname });
       });

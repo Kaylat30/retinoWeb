@@ -1,4 +1,5 @@
-import { Form, Link, useNavigate } from 'react-router-dom';
+// Login.tsx
+import { Form, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store';
 import { loginUser, selectStatus, selectError, selectUser } from '../slice/userSlice';
@@ -7,11 +8,16 @@ import { toast } from 'react-toastify';
 export default function Login() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
   const [showPassword, setShowPassword] = useState(false);
   const status = useAppSelector(selectStatus);
   const error = useAppSelector(selectError);
   const user = useAppSelector(selectUser);
+
+  const from = (location.state as { from: { pathname: string } })?.from?.pathname || '/';
+  const message = location.state?.message;
+
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -39,20 +45,20 @@ export default function Login() {
       toast.success('Logged in successfully', {
         position: 'bottom-left',
       });
-      navigate('/');
-      console.log(user);
+      navigate(from, { replace: true });
     } else if (status === 'failed' && error) {
       toast.error(error || 'An error occurred while logging in', {
         position: 'bottom-left',
       });
     }
-  }, [status, error, navigate, user]);
+  }, [status, error, navigate, user, from]);
 
   return (
     <>
       <div className='flex items-center flex-col my-10 space-y-3 lg:ml-28 lg:mr-28 xsm:ml-7 xsm:mr-7'>
         <h1 className='font-bold text-xl'>Login</h1>
         {error && <h3 className='text-red-500'>{error}</h3>}
+        {message && <h3 className='text-red-500'>{message}</h3>}
         <Form onSubmit={handleSubmit} className='flex flex-col items-center space-y-7 shadow-md p-10' replace method='post'>
           <input type='text' placeholder='email' name='email' className='border md:w-96 md:p-4 xsm:p-2 xsm:w-72 rounded-lg' />
           <input type={showPassword ? 'text' : 'password'} name='password' placeholder='Password' className='border md:w-96 md:p-4 xsm:p-2 xsm:w-72 rounded-lg' />
@@ -74,5 +80,3 @@ export default function Login() {
     </>
   );
 }
-
-
