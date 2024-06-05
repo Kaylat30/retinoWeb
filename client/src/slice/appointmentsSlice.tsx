@@ -3,7 +3,7 @@ import { addAppointment, getAllAppointments, updateAppointment, deleteAppointmen
 //import { WritableDraft } from 'immer';
 
 interface Appointment {
-  id: string;
+  _id: string;
   clinic: string;
   email: string;
   number: number;
@@ -143,8 +143,8 @@ const appointmentsSlice = createSlice({
       })
       .addCase(UpdateAppointment.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const { id, result } = action.payload;
-        const existingAppointmentIndex = state.appointments.findIndex((appointment) => appointment.id === id);
+        const { _id, result } = action.payload;
+        const existingAppointmentIndex = state.appointments.findIndex((appointment) => appointment._id === _id);
         if (existingAppointmentIndex !== -1) {
           state.appointments[existingAppointmentIndex] = { ...state.appointments[existingAppointmentIndex], result };
         }
@@ -161,7 +161,7 @@ const appointmentsSlice = createSlice({
       .addCase(DeleteAppointment.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const appointmentId = action.meta.arg;
-        state.appointments = state.appointments.filter((appointment) => appointment.id !== appointmentId);
+        state.appointments = state.appointments.filter((appointment) => appointment._id !== appointmentId);
         state.error = null; // Clear error on success
       })
       .addCase(DeleteAppointment.rejected, (state, action) => {

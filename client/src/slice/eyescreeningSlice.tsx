@@ -7,7 +7,7 @@ import {
 } from '../api';
 
 interface EyeScreening {
-  id: string;
+  _id: string;
   date: string;
   clinic?: string;
   risk?: number;
@@ -144,8 +144,8 @@ const eyeScreeningsSlice = createSlice({
       })
       .addCase(UpdateEyeScreening.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const { id, clinic, risk, visual, intraocular, serum } = action.payload;
-        const existingEyeScreeningIndex = state.eyeScreenings.findIndex((eyeScreening) => eyeScreening.id === id);
+        const { _id, clinic, risk, visual, intraocular, serum } = action.payload;
+        const existingEyeScreeningIndex = state.eyeScreenings.findIndex((eyeScreening) => eyeScreening._id === _id);
         if (existingEyeScreeningIndex !== -1) {
           state.eyeScreenings[existingEyeScreeningIndex] = {
             ...state.eyeScreenings[existingEyeScreeningIndex],
@@ -169,7 +169,7 @@ const eyeScreeningsSlice = createSlice({
       .addCase(DeleteEyeScreening.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const eyeScreeningId = action.meta.arg;
-        state.eyeScreenings = state.eyeScreenings.filter((eyeScreening) => eyeScreening.id !== eyeScreeningId);
+        state.eyeScreenings = state.eyeScreenings.filter((eyeScreening) => eyeScreening._id !== eyeScreeningId);
         state.error = null; // Clear error on success
       })
       .addCase(DeleteEyeScreening.rejected, (state, action) => {

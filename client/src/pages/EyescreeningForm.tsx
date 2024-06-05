@@ -35,7 +35,7 @@ const EyeScreeningForm: React.FC = () => {
     if (date && clinic && risk !== undefined && visual !== undefined && intraocular !== undefined && serum !== undefined) {
       try {
         if (eyeScreenings.length > 0) {
-          const id = eyeScreenings[eyeScreenings.length - 1].id;
+          const id = eyeScreenings[eyeScreenings.length - 1]._id;
           await dispatch(UpdateEyeScreening({ id, clinic, risk, visual, intraocular, serum })).unwrap();
           alert('Eye screening details updated successfully');
         }

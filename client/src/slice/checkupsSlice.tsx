@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { addCheckup, getAllCheckups, updateCheckup, deleteCheckup } from '../api'; 
 
 interface Checkup {
-  id: string;
+  _id: string;
   date: string;
   clinic?: string;
   glucose: number;
@@ -137,8 +137,8 @@ const checkupsSlice = createSlice({
       })
       .addCase(UpdateCheckup.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        const { id, clinic, glucose, hemoglobin, urinalysis } = action.payload;
-        const existingCheckupIndex = state.checkups.findIndex((checkup) => checkup.id === id);
+        const { _id, clinic, glucose, hemoglobin, urinalysis } = action.payload;
+        const existingCheckupIndex = state.checkups.findIndex((checkup) => checkup._id === _id);
         if (existingCheckupIndex !== -1) {
           state.checkups[existingCheckupIndex] = { ...state.checkups[existingCheckupIndex], clinic, glucose, hemoglobin, urinalysis };
         }
@@ -155,7 +155,7 @@ const checkupsSlice = createSlice({
       .addCase(DeleteCheckup.fulfilled, (state, action) => {
         state.status = 'succeeded';
         const checkupId = action.meta.arg;
-        state.checkups = state.checkups.filter((checkup) => checkup.id !== checkupId);
+        state.checkups = state.checkups.filter((checkup) => checkup._id !== checkupId);
         state.error = null; // Clear error on success
       })
       .addCase(DeleteCheckup.rejected, (state, action) => {

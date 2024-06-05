@@ -9,7 +9,7 @@ import {
 } from '../slice/nutritionSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IoRemoveCircleSharp } from 'react-icons/io5';
+import { IoRemoveCircleSharp, IoTrashBin } from 'react-icons/io5';
 
 
 interface NutritionRecord {
@@ -112,7 +112,7 @@ const DiabeticFoodForm: React.FC = () => {
               <div key={food._id} className="flex items-center mb-2">
                 <span>{food.food}</span>
                 <button onClick={() => deleteFood(food._id)} className="ml-2 text-red-500">
-                  <i className="fas fa-trash"></i>
+                  <IoTrashBin />
                 </button>
               </div>
             ))}

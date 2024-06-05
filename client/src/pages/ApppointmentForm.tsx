@@ -8,6 +8,7 @@ import {
   selectAppointmentsStatus,
   selectAppointmentsError,
 } from '../slice/appointmentsSlice';
+import { toast } from 'react-toastify';
 
 const ResultInput: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,9 +27,13 @@ const ResultInput: React.FC = () => {
       try {
 
         if (appointments.length > 0) {
-          const id = appointments[appointments.length - 1].id;
-          await dispatch(UpdateAppointment({ id, result })).unwrap();
-          alert('Appointment details added successfully');
+          const id = appointments[appointments.length - 1]._id;
+          const add = await dispatch(UpdateAppointment({ id, result })).unwrap();
+          if (add) {
+            toast.success('Appointment details added successfully', {
+              position: 'bottom-left',
+            });
+          }
         }
       } catch (err) {
         alert('Error updating appointment');
@@ -52,9 +57,8 @@ const ResultInput: React.FC = () => {
           onClick={handleSave}
         >
           Save
-          {/* {status === 'loading' && <p>Saving...</p>}
-          {status === 'succeeded' && <p>Saved...</p>}
-          {status === 'idle' && <p>Save...</p>} */}
+          {/* {status === 'loading' && <p>Saving...</p>:<p>Save</p>} */}
+          
         </button>
       </div>
       

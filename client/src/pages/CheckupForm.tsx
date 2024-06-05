@@ -19,32 +19,36 @@ const CheckupForm: React.FC = () => {
 
   const [date, setDate] = useState<string>('');
   const [clinic, setClinic] = useState<string>('');
-  const [glucose, setGlucose] = useState<number>();
-  const [hemoglobin, setHemoglobin] = useState<number>();
-  const [urinalysis, setUrinalysis] = useState<number>();
+  const [glucose, setGlucose] = useState<string>('');
+  const [hemoglobin, setHemoglobin] = useState<string>('');
+  const [urinalysis, setUrinalysis] = useState<string>('');
 
   useEffect(() => {
     dispatch(GetAllCheckups());
   }, [dispatch]);
 
   const handleSave = async () => {
+    const [day, month, year] = date.split('/').map((part) => parseInt(part, 10));
 
-    const [day, month, year] = date.split('/').map((part) => parseInt(part));
-
-        // Create a new Date object using the components
-        const parsedDate= new Date(year, month - 1, day);
-
+    // Create a new Date object using the components
+    const parsedDate = new Date(year, month - 1, day);
 
     if (date && clinic && glucose && hemoglobin && urinalysis) {
       try {
         if (checkups.length > 0) {
-          const id = checkups[checkups.length - 1].id;
-          await dispatch(UpdateCheckup({ id, clinic, glucose, hemoglobin, urinalysis })).unwrap();
-          alert('Checkup details updated successfully');
+          const id = checkups[checkups.length - 1]._id;
+          const add1 = await dispatch(
+            UpdateCheckup({ id, clinic, glucose: parseFloat(glucose), hemoglobin: parseFloat(hemoglobin), urinalysis: parseFloat(urinalysis) })
+          ).unwrap();
+          if (add1) {
+            toast.success('Checkup details updated successfully', {
+              position: 'bottom-left',
+            });
+          }
         }
 
-        const add = await dispatch(AddCheckup(parsedDate.toISOString()))
-        if(add){
+        const add = await dispatch(AddCheckup(parsedDate.toISOString()));
+        if (add) {
           toast.success('Checkup details added successfully', {
             position: 'bottom-left',
           });
@@ -79,27 +83,24 @@ const CheckupForm: React.FC = () => {
         <input
           type="text"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setGlucose(e.target.value ? parseFloat(e.target.value) : undefined)}
+          onChange={(e) => setGlucose(e.target.value)}
           value={glucose}
         />
         <label className="text-lg font-medium">Hemoglobin:</label>
         <input
           type="text"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setHemoglobin(e.target.value ? parseFloat(e.target.value) : undefined)}
+          onChange={(e) => setHemoglobin(e.target.value)}
           value={hemoglobin}
         />
         <label className="text-lg font-medium">Urinalysis:</label>
         <input
           type="text"
           className="h-10 border border-gray-400 rounded px-3"
-          onChange={(e) => setUrinalysis(e.target.value ? parseFloat(e.target.value) : undefined)}
+          onChange={(e) => setUrinalysis(e.target.value)}
           value={urinalysis}
         />
-        <button
-          className="bg-blue-500 text-white py-2 px-4 rounded mt-4"
-          onClick={handleSave}
-        >
+        <button className="bg-blue-500 text-white py-2 px-4 rounded mt-4" onClick={handleSave}>
           Save
         </button>
       </div>
