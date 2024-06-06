@@ -6,7 +6,7 @@ import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 //import { toast } from 'react-toastify';
 
 interface Checkup {
-  id: string;
+  _id: string;
   date: string;
   clinic?: string;
   glucose?: number;
@@ -65,7 +65,7 @@ const Checkup: React.FC = () => {
           <p className="flex-1 text-center font-bold">Date</p>
         </div>
         {tableData.map((checkup, index) => (
-          <div key={checkup.id}>
+          <div key={checkup._id}>
             <div className="flex border-b border-gray-300 pb-2 mb-2">
               <p className="flex-1 text-center">{new Date(checkup.date).toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' })}</p>
               <button className="flex-1 text-center" onClick={() => toggleContent(index)}>

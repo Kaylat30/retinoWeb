@@ -156,7 +156,7 @@ import { GetAllEyeScreenings } from '../slice/eyescreeningSlice';
 import { updateNotificationCount } from '../slice/notificationSlice';
 
 interface Appointment {
-  id: string;
+  _id: string;
   clinic: string;
   email: string;
   number: number;
@@ -168,7 +168,7 @@ interface Appointment {
 }
 
 interface Checkup {
-  id: string;
+  _id: string;
   date: string;
   clinic?: string;
   glucose: number;
@@ -177,7 +177,7 @@ interface Checkup {
 }
 
 interface EyeScreening {
-  id: string;
+  _id: string;
   date: string;
   clinic?: string;
   risk?: number;

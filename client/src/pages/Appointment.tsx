@@ -5,7 +5,7 @@ import { GetAllAppointments, AddAppointment, selectAppointments, selectAppointme
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 
 interface Appointment {
-  id: string;
+  _id: string;
   clinic: string;
   email: string;
   number: number; 
