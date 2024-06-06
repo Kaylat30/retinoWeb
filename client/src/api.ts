@@ -1,6 +1,5 @@
-//export const url: string = "https://retinoweb-server.vercel.app";
-//export const url: string = "https://heinreach-server.vercel.app";
-export const url: string = "http://localhost:3000";
+export const url: string = "https://retinoweb-server.vercel.app";
+//export const url: string = "http://localhost:3000";
 
 export async function LoginUser(email: string, password: string) {
     const requestBody = {
